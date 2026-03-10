@@ -128,6 +128,9 @@ def resolve_rclone_executable(config_value=None):
 
 
 def read_subjective_conf_value(key: str):
+    env_value = os.environ.get(key)
+    if env_value is not None and str(env_value).strip():
+        return str(env_value).strip()
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
     conf_path = os.path.join(project_root, "subjective.conf")
     if not os.path.isfile(conf_path):
