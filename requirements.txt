@@ -1,4 +1,4 @@
 # Runtime/build requirements for subjective_tool_data_fsearch
 
-brainboost-configuration-package @ git+https://github.com/Subjective-Technologies/brainboost_configuration_package.git
+brainboost-configuration-package @ git+https://github.com/Subjective-Technologies/brainboost_configuration_package.git@d69d1f0856ae19ecf19eb02291249969771af80b
 PyQt5==5.15.10
