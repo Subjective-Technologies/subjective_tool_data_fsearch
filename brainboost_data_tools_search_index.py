@@ -18,6 +18,12 @@ from PyQt5.QtSvg import QSvgRenderer
 import os  # For path operations
 import configparser  # For parsing rclone.config
 
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+from com_subjective_tools.window_chrome import get_subjective_tool_icon, install_subjective_window_chrome
+
 # Embedded SVG Icon (Neon Yellow and Pink File Search Icon)
 SVG_ICON = """
 <svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
@@ -719,6 +725,12 @@ class FileSearchApp(QMainWindow):
     def set_window_icon(self):
         """Set the window icon from the embedded SVG data."""
         try:
+            subject_icon = get_subjective_tool_icon()
+            if not subject_icon.isNull():
+                self.setWindowIcon(subject_icon)
+                print("Window icon set successfully.")
+                return
+
             # Initialize QSvgRenderer with the SVG data
             renderer = QSvgRenderer(SVG_ICON.encode('utf-8'))
             pixmap = QPixmap(256, 256)
@@ -1381,6 +1393,7 @@ class FileSearchApp(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)
+    install_subjective_window_chrome(app)
     window = FileSearchApp()
     window.show()
     sys.exit(app.exec_())

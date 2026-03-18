@@ -16,6 +16,12 @@ import os
 import inspect
 from database_client import DatabaseClientSQLite
 
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+from com_subjective_tools.window_chrome import get_subjective_tool_icon, install_subjective_window_chrome
+
 # Global variable to store last log time
 _last_log_time = None
 
@@ -589,6 +595,9 @@ class TimeViewerApp(QMainWindow):
             # Window setup
             self.setWindowTitle("Time-Centric File System Viewer")
             logging.debug("Window title set")
+            app_icon = get_subjective_tool_icon()
+            if not app_icon.isNull():
+                self.setWindowIcon(app_icon)
             
             # Set window size
             screen = QApplication.primaryScreen().geometry()
@@ -1021,7 +1030,8 @@ def main():
         logging.info("Starting TimeViewerApp")
         
         app = QApplication(sys.argv)
-        
+        install_subjective_window_chrome(app)
+
         # Get screen info for debugging
         screen = app.primaryScreen()
         screen_geometry = screen.geometry()
