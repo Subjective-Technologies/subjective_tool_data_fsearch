@@ -41,6 +41,15 @@ HIDDEN_IMPORTS = [
     "sqlite3",
 ]
 
+# Legacy import path used by the tool entries (shim under desktop native).
+_DESKTOP_ROOT = SCRIPT_DIR.parent.parent / "desktop" / "subjective_desktop_native"
+_CHROME_HIDDEN_IMPORTS = (
+    "com_subjective_tools",
+    "com_subjective_tools.window_chrome",
+    "com_subjective_ui",
+    "com_subjective_ui.window_chrome",
+)
+
 EXTRA_DATA = [
     # (source, destination_in_bundle)
     (SCRIPT_DIR / "database_client.py", "."),
@@ -102,8 +111,11 @@ def build_app(app_key: str, one_file: bool = True):
     if one_file:
         cmd.append("--onefile")
 
+    if _DESKTOP_ROOT.is_dir():
+        cmd.extend(["--paths", str(_DESKTOP_ROOT)])
+
     # Hidden imports
-    for mod in HIDDEN_IMPORTS:
+    for mod in (*HIDDEN_IMPORTS, *_CHROME_HIDDEN_IMPORTS):
         cmd.extend(["--hidden-import", mod])
 
     # Extra data files
