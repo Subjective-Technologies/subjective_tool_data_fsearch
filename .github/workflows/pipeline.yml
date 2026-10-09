@@ -38,4 +38,4 @@ jobs:
           uv pip install -r /tmp/requirements-ci.txt
           uv pip install pytest
       - name: Test
-        run: python -m pytest -q
+        run: python -m pytest -q tests
